@@ -12,11 +12,13 @@
 #define EXTENSION_MAX_AMOUNT 10
 #define EXTENSION_MAX_LENGTH 5
 
+#define TEMPLATE_MAP_NAME "$map_name"
+
 public Plugin myinfo = {
     name = "Files downloader",
     author = "Dron-elektron",
     description = "Allows to download and cache files for players",
-    version = "0.1.0",
+    version = "0.2.0",
     url = ""
 }
 
@@ -50,11 +52,11 @@ void ParseFilesConfig(KeyValues config) {
     char mapName[MAX_MAP_NAME_LENGTH];
 
     GetCurrentMap(mapName, sizeof(mapName));
-    ParseSection(config, FILES_CONFIG_DEFAULT_KEY);
-    ParseSection(config, mapName);
+    ParseSection(config, FILES_CONFIG_DEFAULT_KEY, mapName);
+    ParseSection(config, mapName, mapName);
 }
 
-void ParseSection(KeyValues config, const char[] sectionName) {
+void ParseSection(KeyValues config, const char[] sectionName, const char[] mapName) {
     config.Rewind();
 
     if (!config.JumpToKey(sectionName, false)) {
@@ -78,6 +80,7 @@ void ParseSection(KeyValues config, const char[] sectionName) {
         config.GetSectionName(fileName, sizeof(fileName));
         config.GetString(EXTENSION_KEY, extensions, sizeof(extensions));
 
+        ReplaceString(fileName, sizeof(fileName), TEMPLATE_MAP_NAME, mapName);
         AddFilesToDownloads(fileName, extensions);
     } while (config.GotoNextKey(false));
 }
@@ -95,9 +98,14 @@ void AddFilesToDownloads(const char[] fileName, const char[] extensions) {
         }
 
         Format(fullFileName, sizeof(fullFileName), "%s.%s", fileName, extensionsArray[i]);
-        AddFileToDownloadsTable(fullFileName);
-        PrecacheGeneric(fullFileName, true);
-        LogMessage("Added '%s' file to downloads and cache", fullFileName);
+
+        if (FileExists(fullFileName)) {
+            AddFileToDownloadsTable(fullFileName);
+            PrecacheGeneric(fullFileName, true);
+            LogMessage("Added '%s' file to downloads and cache", fullFileName);
+        } else {
+            LogMessage("File '%s' is not found", fullFileName);
+        }
     }
 }
 

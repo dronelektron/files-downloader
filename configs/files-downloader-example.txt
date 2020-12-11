@@ -2,21 +2,21 @@
 
 "FilesDownloader"
 {
-	// Common files for downloading (admin skins, custom textures etc)
+	// Mini-maps
 	"Default"
 	{
-		"materials/models/player/admin_allies"
+		"materials/overviews/$map_name"
 		{
 			"Extensions"	"vtf,vmt"
 		}
 
-		"materials/models/player/admin_axis"
+		"resource/overviews/$map_name"
 		{
-			"Extensions"	"vtf,vmt"
+			"Extensions"	"txt"
 		}
 	}
 
-	// Files for a specific map (mini-maps)
+	// Files for a specific map
 	"3xi_trainmap"
 	{
 		"materials/overviews/3xi_trainmap"

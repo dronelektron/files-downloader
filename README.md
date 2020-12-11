@@ -12,6 +12,10 @@ Allows to download and cache files for players
 * vmt
 * txt
 
+### Supported Templates for Section
+
+* $map_name
+
 ### Installation
 
 * Copy "files-downloader.smx" file to "plugins" folder
