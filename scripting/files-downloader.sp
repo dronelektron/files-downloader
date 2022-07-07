@@ -18,9 +18,9 @@ public Plugin myinfo = {
     name = "Files downloader",
     author = "Dron-elektron",
     description = "Allows to download and cache files for players",
-    version = "0.2.0",
-    url = ""
-}
+    version = "0.2.1",
+    url = "https://github.com/dronelektron/files-downloader"
+};
 
 public void OnMapStart() {
     char filesConfig[PLATFORM_MAX_PATH];
